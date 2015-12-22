@@ -1,0 +1,59 @@
+<div class="large-12 columns">
+  
+  <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+
+<p id="notice"><%= notice %></p>
+
+<%- if @post.user != current_user %>
+  <%= link_to "Follow", "#" %>
+<%- end %>
+
+<div align = "center">
+  <h2>Post</h2>
+<h4>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</h4>
+
+<h4>
+  <strong>Body:</strong>
+  <%= @post.body %>
+</h4>
+<div class = "comments">
+<h2>Comments</h2>
+<% @post.comments.each do |comment| %>
+  <div class="comment" data-id="<%= comment.id %>">
+    <p>
+      <strong>Commenter:</strong>
+      <%= current_user.email %>
+    </p>
+ 
+    <p>
+      <strong>Comment:</strong>
+      <%= comment.body %>
+    </p>
+  
+    <p>
+      <%=link_to 'Delete', [comment.post,comment],method: :delete, data: {confirm: 'Are you sure?'}, remote: true %>
+    </p>
+  </div>
+<% end %>
+</div>
+
+
+<h2>Add a comment:</h2>
+<%= form_for([@post, @post.comments.build]) do |f| %>
+    <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+  <a>
+    <%= f.submit class: "button", remote: true %>
+  </a>
+<% end %>
+
+<%= link_to 'New Post' , new_post_path %> |
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
+</div>
+</div>

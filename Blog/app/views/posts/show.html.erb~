@@ -1,0 +1,52 @@
+<div class="large-12 columns">
+<p id="notice"><%= notice %></p>
+<div align = "center">
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @post.body %>
+</p>
+
+<h2>Comments</h2>
+<% @post.comments.each do |comment| %>
+<div  data-id=comment.id>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </p>
+ 
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+</div>
+<p>
+<%=link_to 'Delete', [comment.post,comment],method: :delete, data: {confirm: 'Are you sure?'}, remote: true %>
+</p>
+<% end %>
+
+
+<h2>Add a comment:</h2>
+<%= form_for([@post, @post.comments.build]) do |f| %>
+  <p>
+    <%= f.label :commenter %><br>
+    <%= f.text_field :commenter %>
+  </p>
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+  <p class="button">
+    <%= f.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'New Post', new_post_path %> |
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
+</div>
+</div>
